@@ -5,7 +5,6 @@ export default class TargetUser{
 
     OnLoginUser = async(username,password) =>{
         try{
-            const dbc = await mongoConnect();
             let user = await this.OnExistsUser(username);
             if(!user.status){
                 throw user.error
@@ -29,10 +28,8 @@ export default class TargetUser{
 
     OnExistsUser = async (username)=>{
         try{
-            console.log(username);
             const dbc = await mongoConnect();
             let user = await dbc.collection('admin').findOne({username:username});
-            console.log(user)
             if(!user){
                 throw "User doesn't exists"
             }

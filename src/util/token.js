@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import {mongoConnect} from './db';
 
 import User from '../services/target-user';
 
@@ -42,13 +41,12 @@ const isValidateToken = ()=>{
                 error: 'Access denied!!'
             })
         }
-        const dbc = await mongoConnect();
         const user = new User();
-        let isExist = user.OnExistsUser(decodeToken.user.username);
+        let isExist = await user.OnExistsUser(decodeToken.user.username);
         if(!isExist.status){
             res.status(404).json({
                 success: false,
-                message: 'User  not found',
+                message: 'User not found',
                 error: isExist.error
             })
         }

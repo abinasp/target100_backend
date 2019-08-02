@@ -28,7 +28,7 @@ export default class TargetService{
         }
     }
 
-    OnGetFaculty = async() => {
+    OnGetFaculties = async() => {
         try{
             const dbc = await mongoConnect();
             let facultyLists = await dbc.collection('faculties').find({isDeleted: false}).toArray();
@@ -48,10 +48,21 @@ export default class TargetService{
     OnUpdateFaculty = async(faculty) => {
         try{
             const dbc = await mongoConnect();
+            let findFaculty = await dbc.collection('faculties').findOne({facultyId: faculty.facultyId});
+            if(!findFaculty){
+                throw 'Faculty not found!!';
+            }
             let {result} = await dbc.collection('faculties').updateOne(
                 {facultyId: faculty.facultyId},
                 {
-                    $set: {faculty}
+                    $set: {
+                        name: faculty.name,
+                        experience: faculty.experience,
+                        subjects: faculty.subjects,
+                        qualification: faculty.qualification,
+                        image: faculty.image,
+                        description: faculty.description
+                    }
                 }
             )
             if(result.ok !=1){
@@ -73,6 +84,10 @@ export default class TargetService{
     OnDeleteFaculty = async(facultyId) =>{
         try{
             const dbc = await mongoConnect();
+            let findFaculty = await dbc.collection('faculties').findOne({facultyId});
+            if(!findFaculty){
+                throw 'Faculty not found!!';
+            }
             let {result} = await dbc.collection('faculties').updateOne(
                 {facultyId: facultyId},
                 {
@@ -141,10 +156,17 @@ export default class TargetService{
     OnUpdateCourse = async(course) => {
         try{
             const dbc = await mongoConnect();
+            let findCourse = await dbc.collection('courses').findOne({courseId: course.courseId});
+            if(!findCourse){
+                throw 'Course not found!!';
+            }
             let {result} = await dbc.collection('courses').updateOne(
                 {courseId: course.courseId},
                 {
-                    $set: {course}
+                    $set: {
+                        name: course.name,
+                        description: course.description
+                    }
                 }
             );
             if(result.ok !=1){
@@ -166,12 +188,19 @@ export default class TargetService{
     OnDeleteCourse = async(courseId)=>{
         try{
             const dbc = await mongoConnect();
+            let findCourse = await dbc.collection('courses').findOne({courseId});
+            if(!findCourse){
+                throw 'Course not found!!';
+            }
             let {result} = await dbc.collection('courses').updateOne(
                 {courseId: courseId},
                 {
                     $set: {isDeleted: true}
                 }
             );
+            if(result.ok !=1){
+                throw 'Error in updating course!!';
+            }
             return {
                 status: true,
                 message: 'Course has been deleted successfully'
