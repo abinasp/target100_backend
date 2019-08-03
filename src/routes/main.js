@@ -202,5 +202,26 @@ router.delete('/delete-course', isValidateToken(), async(req,res)=>{
     }
 })
 
+router.post('/register', async (req,res)=>{
+    try{
+        let {student} = req.body;
+        let registerStudent = await user.OnRegisterStudent(student);
+        if(!registerStudent.status){
+            throw registerStudent.error;
+        }
+        res.status(200).json({
+            success: true,
+            message: 'Registration successful!!',
+            data: registerStudent.message
+        });
+    }catch(ex){
+        res.status(400).json({
+            success: false,
+            message: 'Error in student registration!!',
+            error: ex
+        });
+    }
+})
+
 export default router;
 
