@@ -56,12 +56,12 @@ export default class TargetService{
                 {facultyId: faculty.facultyId},
                 {
                     $set: {
-                        name: faculty.name,
-                        experience: faculty.experience,
-                        subjects: faculty.subjects,
-                        qualification: faculty.qualification,
-                        image: faculty.image,
-                        description: faculty.description
+                        name: 'name' in faculty ? faculty.name : findFaculty.name,
+                        experience: 'experience' in faculty ? faculty.experience : findFaculty.experience,
+                        subjects: 'subjects' in faculty ? faculty.subjects : findFaculty.subjects,
+                        qualification: 'qualification' in faculty ? faculty.qualification : findFaculty.qualification,
+                        image: 'image' in faculty ? faculty.image : findFaculty.image,
+                        description: 'description' in faculty ? faculty.description : findFaculty.description
                     }
                 }
             )
@@ -164,8 +164,8 @@ export default class TargetService{
                 {courseId: course.courseId},
                 {
                     $set: {
-                        name: course.name,
-                        description: course.description
+                        name: 'name' in course ? course.name : findCourse.name,
+                        description: 'description' in course ? course.description : findCourse.description
                     }
                 }
             );
