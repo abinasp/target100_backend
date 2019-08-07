@@ -1,0 +1,6 @@
+apps:
+    - script: ./src/app.js
+      name: "Target100 Backend"
+      instances: 1
+      watch: true
+      exec_mode: fork
