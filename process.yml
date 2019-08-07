@@ -1,5 +1,5 @@
 apps:
-    - script: --interpreter babel-node ./src/app.js
+    - script: yarn watch
       name: "Target100 Backend"
       instances: 1
       watch: true
