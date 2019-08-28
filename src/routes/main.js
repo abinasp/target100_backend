@@ -58,7 +58,7 @@ router.put("/create-faculty", isValidateToken(), async (req, res) => {
   }
 });
 
-router.get("/get-faculties", isValidateToken(), async (req, res) => {
+router.get("/get-faculties", async (req, res) => {
   try {
     let fetchFaculties = await targetService.OnGetFaculties();
     if (!fetchFaculties.status) {
@@ -120,6 +120,94 @@ router.delete("/delete-faculty", isValidateToken(), async (req, res) => {
   }
 });
 
+router.post("/registration", isValidateToken(), async (req, res) => {
+  try {
+    let { register } = req.body;
+    let registerStudent = await targetService.OnRegister(register);
+    if (!registerStudent.status) {
+      throw registerStudent.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Successfully registered",
+      data: registerStudent.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Oops something went wrong!",
+      error: ex
+    });
+  }
+});
+
+router.get("/get-registrations", isValidateToken(), async (req, res) => {
+  // console.log(req)
+  try {
+    let { registrationQueryFields } = req.query;
+
+    let fetchStudents = await targetService.OnGetRegisteredStudents(
+      registrationQueryFields
+    );
+    if (!fetchStudents.status) {
+      throw fetchStudents.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "List of registrations !",
+      data: fetchStudents.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in fetching registrations !",
+      error: ex
+    });
+  }
+});
+
+router.patch("/update-registration", isValidateToken(), async (req, res) => {
+  try {
+    let { registration } = req.body;
+    let updateRegistration = await targetService.OnUpdateRegistration(
+      registration
+    );
+    if (!updateRegistration.status) {
+      throw updateRegistration.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Registration has been updated successfully!!",
+      data: updateRegistration.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in updating Registration",
+      error: ex
+    });
+  }
+});
+
+router.get("/get-courses", async (req, res) => {
+  try {
+    let fetchCourses = await targetService.OnGetCourses();
+    if (!fetchCourses.status) {
+      throw fetchCourses.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "List of courses found!!",
+      data: fetchCourses.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in fetching courses!!",
+      error: ex
+    });
+  }
+});
 router.put("/create-course", isValidateToken(), async (req, res) => {
   try {
     let { course } = req.body;
@@ -141,25 +229,25 @@ router.put("/create-course", isValidateToken(), async (req, res) => {
   }
 });
 
-router.get("/get-courses", isValidateToken(), async (req, res) => {
-  try {
-    let fetchCourses = await targetService.OnGetCourses();
-    if (!fetchCourses.status) {
-      throw fetchCourses.error;
-    }
-    res.status(200).json({
-      success: true,
-      message: "List of courses found!!",
-      data: fetchCourses.message
-    });
-  } catch (ex) {
-    res.status(400).json({
-      success: false,
-      message: "Error in fetching courses!!",
-      error: ex
-    });
-  }
-});
+// router.get("/get-courses", isValidateToken(), async (req, res) => {
+//   try {
+//     let fetchCourses = await targetService.OnGetCourses();
+//     if (!fetchCourses.status) {
+//       throw fetchCourses.error;
+//     }
+//     res.status(200).json({
+//       success: true,
+//       message: "List of courses found!!",
+//       data: fetchCourses.message
+//     });
+//   } catch (ex) {
+//     res.status(400).json({
+//       success: false,
+//       message: "Error in fetching courses!!",
+//       error: ex
+//     });
+//   }
+// });
 
 router.patch("/update-course", isValidateToken(), async (req, res) => {
   try {
@@ -203,26 +291,28 @@ router.delete("/delete-course", isValidateToken(), async (req, res) => {
   }
 });
 
-router.post("/register", async (req, res) => {
-  try {
-    let { student } = req.body;
-    let registerStudent = await user.OnRegisterStudent(student);
-    if (!registerStudent.status) {
-      throw registerStudent.error;
-    }
-    res.status(200).json({
-      success: true,
-      message: "Registration successful!!",
-      data: registerStudent.message
-    });
-  } catch (ex) {
-    res.status(400).json({
-      success: false,
-      message: "Error in student registration!!",
-      error: ex
-    });
-  }
-});
+// router.delete("/delete-registration", isValidateToken(), async (req, res) => {
+//   try {
+//     let { registrationId } = req.body;
+//     let deleteRegistration = await targetService.OnDeleteRegistration(
+//       registrationId
+//     );
+//     if (!deleteRegistration.status) {
+//       throw deleteRegistration.error;
+//     }
+//     res.status(200).json({
+//       success: true,
+//       message: "Notification has been deleted successfully!!",
+//       data: deleteRegistration.message
+//     });
+//   } catch (ex) {
+//     res.status(400).json({
+//       success: false,
+//       message: "Error in deleting registration",
+//       error: ex
+//     });
+//   }
+// });
 
 router.get("/uploaded-image", (req, res) => {
   try {
@@ -234,6 +324,113 @@ router.get("/uploaded-image", (req, res) => {
     res.status(400).json({
       success: false,
       messgae: "No file found.",
+      error: ex
+    });
+  }
+});
+
+router.put("/create-notification", isValidateToken(), async (req, res) => {
+  try {
+    let { notification } = req.body;
+    let createNotification = await targetService.OnCreateNotification(
+      notification
+    );
+    if (!createNotification.status) {
+      throw createNotification.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Notification has been created successfully",
+      data: createNotification.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in creating Notification!!",
+      error: ex
+    });
+  }
+});
+
+router.get("/get-notifications", async (req, res) => {
+  try {
+    let fetchNotifications = await targetService.OnGetNotifications();
+    if (!fetchNotifications.status) {
+      throw fetchNotifications.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "List of Notifications found !!",
+      data: fetchNotifications.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in fetching notifications !!",
+      error: ex
+    });
+  }
+});
+
+router.patch("/update-notification", isValidateToken(), async (req, res) => {
+  try {
+    let { notification } = req.body;
+    let updateNotification = await targetService.OnUpdateNotification(
+      notification
+    );
+    if (!updateNotification.status) {
+      throw updateNotification.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Notification has been updated successfully!!",
+      data: updateNotification.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in updating notification",
+      error: ex
+    });
+  }
+});
+router.patch("/update-student", isValidateToken(), async (req, res) => {
+  try {
+    let { student } = req.body;
+    let updateStudent = await targetService.OnVerifyStudent(student);
+    if (!updateStudent.status) {
+      throw updateStudent.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "student has been updated successfully!!",
+      data: updateStudent.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in updating student",
+      error: ex
+    });
+  }
+});
+
+router.delete("/delete-notification", isValidateToken(), async (req, res) => {
+  try {
+    let { notificationId } = req.body;
+    let deleteNotification = await user.OnDeleteNotification(notificationId);
+    if (!deleteNotification.status) {
+      throw deleteNotification.error;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Notification has been deleted successfully!!",
+      data: deleteNotification.message
+    });
+  } catch (ex) {
+    res.status(400).json({
+      success: false,
+      message: "Error in deleting notification",
       error: ex
     });
   }

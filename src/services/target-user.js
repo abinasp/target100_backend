@@ -45,30 +45,30 @@ export default class TargetUser {
     }
   };
 
-  OnRegisterStudent = async student => {
-    try {
-      const dbc = await mongoConnect();
-      student.studentId = Math.random()
-        .toString(36)
-        .substring(7);
-      student.isDeleted = false;
-      student.createdAt = new Date();
-      let { result } = await dbc
-        .collection("registration")
-        .insertOne({ student });
-      if (result.ok != 1) {
-        throw "Error while registering user.";
-      }
-      return {
-        status: true,
-        message: "Registration successful!!"
-      };
-    } catch (ex) {
-      console.error("Error in creating user");
-      return {
-        status: false,
-        error: ex
-      };
-    }
-  };
+  // OnRegisterStudent = async student => {
+  //   try {
+  //     const dbc = await mongoConnect();
+  //     student.studentId = Math.random()
+  //       .toString(36)
+  //       .substring(7);
+  //     student.isDeleted = false;
+  //     student.createdAt = new Date();
+  //     let { result } = await dbc
+  //       .collection("registration")
+  //       .insertOne({ student });
+  //     if (result.ok != 1) {
+  //       throw "Error while registering user.";
+  //     }
+  //     return {
+  //       status: true,
+  //       message: "Registration successful!!"
+  //     };
+  //   } catch (ex) {
+  //     console.error("Error in creating user");
+  //     return {
+  //       status: false,
+  //       error: ex
+  //     };
+  //   }
+  // };
 }
