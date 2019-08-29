@@ -1,7 +1,7 @@
 apps:
-    - script: yarn watch
-      name: "Target100 Backend"
-      instances: 1
-      watch: true
-      exec_interpreter : "babel-node"
-      exec_mode: fork
+  - script: yarn watch
+    name: "Target100 Backend"
+    instances: 1
+    watch: true
+    exec_interpreter : "babel-node"
+    exec_mode: fork
