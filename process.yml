@@ -1,5 +1,5 @@
 apps:
-  - script: yarn watch
+  - script: ./build/app.js
     name: "Target100 Backend"
     instances: 1
     watch: true

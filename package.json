@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "cross-env NODE_PATH=./src nodemon src/app.js --exec babel-node --presets=@babel/preset-env"
+    "watch": "cross-env NODE_PATH=./src nodemon src/app.js --exec babel-node --presets=@babel/preset-env",
+    "build": "cross-env babel ./src -d ./build"
   },
   "author": "Uraj Gogoi",
   "license": "ISC",
