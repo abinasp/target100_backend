@@ -1,6 +1,6 @@
 {
   "name": "target100",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Backend for Target100 Portal",
   "main": "index.js",
   "scripts": {
