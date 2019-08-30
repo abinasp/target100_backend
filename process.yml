@@ -1,7 +1,6 @@
 apps:
-  - script: ./build/app.js
-    name: "Target100 Backend"
-    instances: 1
-    watch: true
-    exec_interpreter : "babel-node"
-    exec_mode: fork
+    - script: ./build/app.js
+      name: "Target100 Backend"
+      instances: 1
+      watch: true
+      exec_mode: fork
