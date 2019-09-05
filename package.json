@@ -1,11 +1,12 @@
 {
   "name": "target100",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Backend for Target100 Portal",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "cross-env NODE_PATH=./src nodemon src/app.js --exec babel-node --presets=@babel/preset-env"
+    "watch": "cross-env NODE_PATH=./src nodemon src/app.js --exec babel-node --presets=@babel/preset-env",
+    "build": "cross-env babel ./src -d ./build"
   },
   "author": "Uraj Gogoi",
   "license": "ISC",
