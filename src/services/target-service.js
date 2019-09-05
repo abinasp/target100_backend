@@ -414,7 +414,15 @@ export default class TargetService {
             courseDescription:
               "courseDescription" in course
                 ? course.courseDescription
-                : findCourse.courseDescription
+                : findCourse.courseDescription,
+            courseStartingClass:
+              "courseStartingClass" in course
+                ? course.courseStartingClass
+                : findCourse.courseStartingClass,
+            courseEndingClass:
+              "courseEndingClass" in course
+                ? course.courseEndingClass
+                : findCourse.courseEndingClass
           }
         }
       );
@@ -477,9 +485,11 @@ export default class TargetService {
   OnDeleteNotification = async notificationId => {
     try {
       const dbc = await mongoConnect();
+
       let findNotification = await dbc
         .collection("notifications")
         .findOne({ notificationId });
+
       if (!findNotification) {
         throw "notificationId not found!!";
       }
